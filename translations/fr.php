@@ -2,7 +2,7 @@
 
 global $_MODULE;
 $_MODULE = array();
-$_MODULE['<{googlewebmastertoolsverification}prestashop>googlewebmastertoolsverification_e67871d0fa398420d3f64c5523efdcfa'] = 'Activer Google Webmaster Tools';
+$_MODULE['<{googlewebmastertoolsverification}prestashop>googlewebmastertoolsverification_939863630141bb1301edb602776cfb85'] = 'Google Webmaster Tools Verification';
 $_MODULE['<{googlewebmastertoolsverification}prestashop>googlewebmastertoolsverification_eb9ef1a13c7378bf03f7a8b440c020df'] = 'Ajouter le code de validation de Google Webmaster Tools';
 $_MODULE['<{googlewebmastertoolsverification}prestashop>googlewebmastertoolsverification_fa214007826415a21a8456e3e09f999d'] = 'Êtes-vous sûr de vouloir supprimer vos paramètres ?';
 $_MODULE['<{googlewebmastertoolsverification}prestashop>googlewebmastertoolsverification_618910040e14fee245816bd5d0373185'] = 'Vous devez renseigner votre code Webmaster Tools de Google';

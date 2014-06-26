@@ -15,6 +15,8 @@ if (!defined('_PS_VERSION_'))
 	
 class googlewebmastertoolsverification extends Module
 {
+    public $code;
+
 	public function __construct()
 	{
 	    $this->bootstrap = true;
@@ -24,18 +26,18 @@ class googlewebmastertoolsverification extends Module
 		$this->version = '1.0.0';
 		$this->author = 'LBAB';
 		$this->need_instance = 0;
-		$this->ps_versions_compliancy = array('min' => '1.5', 'max' => '1.6');
+		$this->ps_versions_compliancy = array('min' => '1.6', 'max' => '1.6');
 
+        $this->code = Configuration::get('LBAB_GOOGLEWEBMASTERTOOLS_CODE');
 		parent::__construct();
-
-		$this->displayName = $this->l('Activate Google webmaster tools');
+        
+		$this->displayName = $this->l('Google webmaster tools Verification');
         $this->description = $this->l('Add Google webmaster tools verification code');
 
 		$this->confirmUninstall = $this->l('Are you sure you want to delete your details ?');
         
-        if (!Configuration::get('lbabgooglewebmastertools_code'))
+        if (!isset($this->code) || empty($this->code))
             $this->warning = $this->l('You must enter your code from the Google Webmaster Tools');
-
 	}
 	
 	public function install()
@@ -44,6 +46,7 @@ class googlewebmastertoolsverification extends Module
 	        Shop::setContext(Shop::CONTEXT_ALL);
 	    
 		return (parent::install() && 
+            Configuration::updateValue('LBAB_GOOGLEWEBMASTERTOOLS_CODE', '') &&
 		    $this->registerHook('displayHeader') 
 		);
 	}
@@ -51,7 +54,7 @@ class googlewebmastertoolsverification extends Module
 	public function uninstall()
 	{		
 		return (parent::uninstall() && 
-		    Configuration::deleteByName('lbabgooglewebmastertools_code')
+		    Configuration::deleteByName('LBAB_GOOGLEWEBMASTERTOOLS_CODE')
 		);
 	}
 	
@@ -73,12 +76,12 @@ class googlewebmastertoolsverification extends Module
 	    $output = '';
 	    
 	    if (Tools::isSubmit('submit'.$this->name)){
-            $code = strval(Tools::getValue('lbabgooglewebmastertools_code'));
+            $code = Tools::getValue('code');
 
             if (!$code  || empty($code)) {
                 $output .= $this->displayError( $this->l('Invalid code') );
             } else {
-                Configuration::updateValue('lbabgooglewebmastertools_code', $code);
+                Configuration::updateValue('LBAB_GOOGLEWEBMASTERTOOLS_CODE', $code, true);
 
                 $output .= $this->displayConfirmation($this->l('Settings updated'));
             }
@@ -103,10 +106,9 @@ class googlewebmastertoolsverification extends Module
 	            array(
 	                'type' => 'text',
 	                'label' => $this->l('Google code'),
-	                'name' => 'lbabgooglewebmastertools_code',
-	                'required' => false,
-		            'desc' => $this->l('Copy the code from the Google Webmaster Tools verification page (choose html header method).'),
-                    'class' => 'fixed-width-xl'
+	                'name' => 'code',
+	                'required' => true,
+		            'desc' => $this->l('Copy the code from the Google Webmaster Tools verification page (choose html header method).').'<br>  Ex : &lt;meta name="google-site-verification" content="fUhaGiNjck4SDoyzO5K3ur0tq8yA8iCU6Hz65Ug9r88" /&gt;',
 	            ),
 	        ),
 	        'submit' => array(
@@ -134,13 +136,13 @@ class googlewebmastertoolsverification extends Module
 	    $helper->submit_action = 'submit'.$this->name;
 	     
 	    // Load current value
-	    $helper->fields_value['lbabgooglewebmastertools_code'] = htmlentities(Configuration::get('lbabgooglewebmastertools_code'));
+	    $helper->fields_value['code'] = Configuration::get('LBAB_GOOGLEWEBMASTERTOOLS_CODE');
 	     
 	    return $helper->generateForm($fields_form);
 	}
 
 	public function hookDisplayHeader($params)
 	{
-		return Configuration::get('lbabgooglewebmastertools_code')?Configuration::get('lbabgooglewebmastertools_code'):'';
+		return Configuration::get('LBAB_GOOGLEWEBMASTERTOOLS_CODE')?Configuration::get('LBAB_GOOGLEWEBMASTERTOOLS_CODE'):'';
 	}
 }

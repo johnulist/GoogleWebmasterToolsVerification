@@ -1,6 +1,6 @@
 Google Webmaster Tools Verification Module for Prestashop v1.0.0
 =======================================================
-**Avaible on Prestashop 1.5 and 1.6**
+**Avaible on Prestashop 1.6**
 
 Activate Google webmaster tools
 
@@ -23,7 +23,7 @@ Installation
 
 Module key features
 -------------------
-* Avaible on Prestashop 1.5 and 1.6
+* Avaible on Prestashop 1.6
 
 * Translated into French and English
 
